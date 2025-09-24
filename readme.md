@@ -48,10 +48,10 @@ Create a file named .env in the root directory of the project.
 
 Add your API keys to the .env file as follows:
 
-# Get your key from Google AI Studio: [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
+# Get your key from Google AI Studio: [GEMINI API KEY](https://aistudio.google.com/app/apikey)
 GOOGLE_API_KEY="your_google_api_key_here"
 
-# Get your key from Serper: [https://serper.dev/](https://serper.dev/)
+# Get your key from Serper: [SERPER APR KEY](https://serper.dev/)
 SERPER_API_KEY="your_serper_api_key_here"
 
 4. Running the Application
