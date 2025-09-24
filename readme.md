@@ -1,67 +1,75 @@
-AI Fact-Checking Agent
-This project provides a deployable AI agent that fact-checks news headlines using CrewAI and serves the results via a FastAPI web interface.
+AI News Fact-Checking Agent
+This project is a web-based AI agent that fact-checks news headlines in real-time. It uses a multi-agent system built with CrewAI to research, analyze, and deliver a verdict on the credibility of a news story, complete with sources.
 
-How It Works
-The system uses a "crew" of two specialized AI agents:
+✨ Features
+Real-time Fact-Checking: Enter any news headline and get a detailed analysis.
 
-Researcher Agent: Scours the internet using the Serper API to find multiple sources and perspectives on a given headline.
+Multi-Agent System: Utilizes a Researcher agent for information gathering and an Analyst agent for critical evaluation.
 
-Analyst Agent: Takes the researcher's findings, analyzes them for bias and consistency, and provides a final verdict with supporting sources.
+Source Citing: The final analysis includes the URLs of the most reliable sources used.
 
-The entire application is exposed as a simple API and can be easily deployed as a Docker container.
+Web Interface: Simple and clean user interface for easy interaction.
 
-Setup and Running Locally
+Ready for Deployment: Includes a Dockerfile for easy containerization and deployment.
+
+🛠️ Tech Stack
+Backend: FastAPI
+
+AI Framework: CrewAI
+
+Language Model (LLM): Google Gemini (gemini-1.5-flash)
+
+Search Tool: SerperDevTool
+
+Deployment: Docker
+
+🚀 Getting Started
+Follow these instructions to get the project running on your local machine.
+
 1. Prerequisites
 Python 3.9+
 
-Docker (for deployment)
+An active virtual environment (recommended).
 
-2. Get API Keys
-You need two API keys:
+2. Installation
+First, clone the repository to your local machine:
 
-LLM Provider Key: An API key for your chosen Large Language Model. The code is configured for Groq (GROQ_API_KEY), which is very fast. You can also easily switch to OpenAI (OPENAI_API_KEY) or a local model via Ollama.
+git clone https://github.com/harshchawra/AI-News-Detector.git
+cd AI-News-Detector
 
-Serper API Key: An API key for the Serper.dev search tool. They have a generous free tier.
-
-3. Project Setup
-Clone the repository or create the files as provided.
-
-Create a .env file in the root directory to store your API keys:
-
-GROQ_API_KEY="gsk_..."
-SERPER_API_KEY="your_serper_api_key"
-
-Install dependencies:
+Next, install the required Python packages:
 
 pip install -r requirements.txt
 
-4. Run the Application
-Start the FastAPI server:
+3. Environment Variables
+This project requires API keys for Google Gemini and Serper.
+
+Create a file named .env in the root directory of the project.
+
+Add your API keys to the .env file as follows:
+
+# Get your key from Google AI Studio: [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
+GOOGLE_API_KEY="your_google_api_key_here"
+
+# Get your key from Serper: [https://serper.dev/](https://serper.dev/)
+SERPER_API_KEY="your_serper_api_key_here"
+
+4. Running the Application
+Start the local server using Uvicorn:
 
 uvicorn main:app --reload
 
-Open your browser and navigate to http://127.0.0.1:8000. You will see the user interface.
+The application will be running and accessible at http://127.0.0.1:8000.
 
-Deployment
-This application is ready for deployment using Docker.
+🐳 Deployment with Docker
+This project is containerized for easy and consistent deployment.
 
 Build the Docker image:
 
 docker build -t fact-checker-agent .
 
-Run the Docker container:
+Run the Docker container, passing the environment variables from your .env file:
 
-docker run -d -p 8000:8000 --env-file .env fact-checker-agent
+docker run -p 8000:8000 --env-file .env fact-checker-agent
 
-The --env-file .env flag passes your API keys to the container.
-
-Deploy to the Cloud:
-You can deploy this container image to services like:
-
-Hugging Face Spaces: Great for ML demos, free tier available.
-
-Render: Easy to use PaaS for deploying web services.
-
-Railway: Another user-friendly deployment platform.
-
-Any cloud provider that supports Docker containers (AWS, GCP, Azure).
+The application will now be running inside a Docker container, accessible at http://localhost:8000.
