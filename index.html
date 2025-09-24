@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Fact-Checker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-2xl bg-gray-800 rounded-lg shadow-xl p-8">
+        <h1 class="text-3xl font-bold text-center mb-2 text-cyan-400">AI Fact-Checking Agent</h1>
+        <p class="text-center text-gray-400 mb-6">Enter a news headline below to verify its authenticity with an AI-powered crew.</p>
+        
+        <div class="mb-4">
+            <label for="headline" class="block text-sm font-medium text-gray-300 mb-2">News Headline</label>
+            <input type="text" id="headline" class="w-full bg-gray-700 border border-gray-600 rounded-md px-4 py-2 text-white focus:ring-2 focus:ring-cyan-500 focus:outline-none" placeholder="e.g., 'Scientists discover water on Mars'">
+        </div>
+        
+        <button id="check-button" class="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">
+            Verify Now
+        </button>
+        
+        <div id="loader" class="hidden text-center mt-6">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400"></div>
+            <p class="mt-2 text-gray-400">Agents are researching... this may take a moment.</p>
+        </div>
+
+        <div id="result-container" class="mt-8 p-6 bg-gray-700 rounded-lg hidden">
+             <h2 class="text-xl font-semibold mb-3 text-cyan-400">Analysis Result:</h2>
+             <pre id="result" class="whitespace-pre-wrap text-gray-300"></pre>
+        </div>
+    </div>
+
+    <script>
+        const headlineInput = document.getElementById('headline');
+        const checkButton = document.getElementById('check-button');
+        const loader = document.getElementById('loader');
+        const resultContainer = document.getElementById('result-container');
+        const resultDiv = document.getElementById('result');
+
+        checkButton.addEventListener('click', async () => {
+            const headline = headlineInput.value;
+            if (!headline) {
+                alert('Please enter a headline.');
+                return;
+            }
+
+            // Show loader and hide previous results
+            loader.classList.remove('hidden');
+            resultContainer.classList.add('hidden');
+            checkButton.disabled = true;
+
+            try {
+                const response = await fetch('/fact-check', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ headline: headline }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                resultDiv.textContent = data.analysis;
+                resultContainer.classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.textContent = 'An error occurred while checking the headline. Please check the console for details.';
+                resultContainer.classList.remove('hidden');
+            } finally {
+                // Hide loader and re-enable button
+                loader.classList.add('hidden');
+                checkButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

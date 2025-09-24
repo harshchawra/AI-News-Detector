@@ -1,0 +1,10 @@
+Python virtual environment
+venv/
+pycache/
+
+Environment variables
+.env
+
+IDE-specific files
+.vscode/
+.idea/
