@@ -12,7 +12,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Instantiate the Gemini model with the latest compatible model name
 llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash", # Corrected model name
+    model="gemini-2.5-flash", # Corrected model name
     verbose=True,
     temperature=0.5,
     google_api_key=os.getenv("GOOGLE_API_KEY")
