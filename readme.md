@@ -27,7 +27,7 @@ Deployment: Docker
 Follow these instructions to get the project running on your local machine.
 
 1. Prerequisites
-Python 3.9+
+Python 3.10 - 3.12
 
 An active virtual environment (recommended).
 
